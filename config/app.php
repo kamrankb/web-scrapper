@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Weidner\Goutte\GoutteServiceProvider::class,
+        App\Repositories\Scraper\ScraperServiceProvider::class,
 
     ],
 
