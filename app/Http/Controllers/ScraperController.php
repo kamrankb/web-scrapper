@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Scraper;
+use App\Repositories\Movie\MovieInterface;
 use App\Repositories\Scraper\ScraperInterface;
+use Exception;
 use Illuminate\Http\Request;
 
 class ScraperController extends Controller
 {
     protected $scraping;
+    protected $movie;
 
-    function __construct(ScraperInterface $scraping)
+    function __construct(ScraperInterface $scraping, MovieInterface $movie)
     {
         $this->scraping = $scraping;
+        $this->movie = $movie;
     }
 
     /**
@@ -22,10 +26,26 @@ class ScraperController extends Controller
      */
     public function index()
     {
-        $this->scraping->fetchWeb('https://www.imdb.com/chart/top');
+        try {
+            $this->scraping->fetchWeb('https://www.imdb.com/chart/top');
+    
+            $movies = $this->scraping->getMovies();
+            
+            $addMovies = $this->movie->add($movies);
 
-        $this->scraping->getMovies();
-
+            if(!empty($addMovies['success']) && $addMovies['success'] == true) {
+                return response()->json($this->movie->list());
+            } else {
+                return response()->json([
+                    "message" => "No movies in the list."
+                ]);
+            }
+        } catch(Exception $ex) {
+            return [
+                "error" => $ex->getCode(),
+                "message" => $ex->getMessage()
+            ];
+        }
     }
 
     /**
