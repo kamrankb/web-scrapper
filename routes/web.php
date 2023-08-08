@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ScraperController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('movie.list');
 });
 
 Route::resource('scraper', ScraperController::class);
+Route::get('/movies', [MovieController::class, 'index'])->name('movie.list');
