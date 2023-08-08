@@ -177,6 +177,7 @@ return [
 
         Weidner\Goutte\GoutteServiceProvider::class,
         App\Repositories\Scraper\ScraperServiceProvider::class,
+        App\Repositories\Movie\MovieServiceProvider::class,
 
     ],
 
