@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ScraperController;
+use App\Http\Controllers\WebMDController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,8 @@ Route::get('/', function () {
     return redirect()->route('movie.list');
 });
 
-Route::resource('scraper', ScraperController::class);
-Route::get('/movies', [MovieController::class, 'index'])->name('movie.list');
+//  Route::resource('scraper', ScraperController::class);
+//  Route::get('/movies', [MovieController::class, 'index'])->name('movie.list');
+
+Route::get('/scrape/webMD', [WebMDController::class, 'index']);
+Route::get('/scrape/webMD/blog-list', [WebMDController::class, 'categoryBlogs']);
